@@ -1,6 +1,34 @@
 "use strict"
 
 const tbody = document.querySelector("tbody");
+const newBookDialog = document.querySelector("#new-book");
+const newBookForm = document.querySelector("#new-book form")
+
+//New Book
+const newBookBtn = document.querySelector(".new-book-btn");
+const closeBtn = newBookDialog.querySelector(".close-btn");
+const submitBtn = newBookDialog.querySelector(".submit-btn");
+
+// Form Inputs
+const formTitle = newBookDialog.querySelector("#title");
+const formAuthor = newBookDialog.querySelector("#author");
+const formPages = newBookDialog.querySelector("#pages");
+const formStatus = newBookDialog.querySelector("#status");
+
+newBookBtn.addEventListener("click", () => {
+    newBookForm.reset();
+    newBookDialog.showModal();
+})
+
+closeBtn.addEventListener("click", () => {
+    newBookDialog.close();
+})
+
+submitBtn.addEventListener("click", () => {
+    addBookToLibrary(formTitle.value, formAuthor.value, formPages.value, formStatus.value === "yes" ? true : false);
+    displayLibrary();
+    newBookDialog.close();
+})
 
 const myLibrary = [];
 
@@ -25,6 +53,7 @@ addBookToLibrary("Pride and Prejudice", "Jane Austen", 432, false);
 addBookToLibrary("Frankenstein", "Mary Shelley", 280, false);
 
 function displayLibrary() {
+    tbody.innerHTML = "";
     for (let i = 0; i < myLibrary.length; i++) {
         const newBook = document.createElement("tr");
         newBook.className = "book";

@@ -1,13 +1,15 @@
 :root {
     font-family: "Playfair Display", sans-serif;
 
-    --subtle-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+    --subtle-shadow: 4px 4px 8px rgba(0, 0, 0, .4);
 }
 
 body {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    margin: auto 2rem;
 }
 
 caption {
@@ -17,7 +19,9 @@ caption {
 
 table {
     border-collapse: collapse;
-    border: 2px solid rgb(35, 116, 66)
+    border: 2px solid rgb(35, 116, 66);
+    width: calc(100vw - 4rem);
+    box-shadow: var(--subtle-shadow);
 }
 
 thead {
@@ -42,4 +46,72 @@ tr:nth-child(odd) td {
 
 tr:nth-child(even) td {
     background-color: rgb(255, 228, 179);
+}
+
+dialog {
+    background-color: rgb(255, 201, 102);
+    width: 300px;
+}
+
+#new-book form {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .5rem;
+    align-items: center;
+}
+
+#new-book form div {
+    display: contents;
+}
+
+.new-book-btn {
+    outline: none;
+    border: none;
+    border-radius: .5rem;
+    padding: 1rem;
+    color: white;
+    font-weight: 600;
+    background-color: rgb(0, 55, 155);
+    box-shadow: var(--subtle-shadow);
+    align-self: flex-end;
+}
+
+.new-book-btn:hover {
+    cursor: pointer;
+    background-color: rgba(0, 55, 155, .9);
+}
+
+dialog#new-book {
+
+    outline: none;
+    border: none;
+    border-radius: 10px;
+}
+
+.close-btn {
+    grid-column: 1 / 3;
+    outline: none;
+    border: none;
+    display: flex;
+    padding: 0;
+    cursor: pointer;
+    color: black;
+    width: 1.5rem;
+    align-self: flex-end;
+    background-color: transparent;
+    justify-self: end;
+}
+
+.submit-btn {
+    grid-column: 1 / 3;
+    outline: none;
+    border: none;
+    width: fit-content;
+    padding: .5rem;
+    cursor: pointer;
+    background-color: rgb(0, 55, 155);
+    color: white;
+    font-weight: 600;
+    border-radius: .5rem;
+    justify-self: end;
 }
