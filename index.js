@@ -1,24 +1,24 @@
 "use strict"
 
 const tbody = document.querySelector("tbody");
-const newBookDialog = document.querySelector("#new-book");
-const newBookForm = document.querySelector("#new-book form")
 
 //New Book
+const newBookDialog = document.querySelector("#new-book");
 const newBookBtn = document.querySelector(".new-book-btn");
 const closeBtn = newBookDialog.querySelector(".close-btn");
 const submitBtn = newBookDialog.querySelector(".submit-btn");
-
-// Form Inputs
-const formTitle = newBookDialog.querySelector("#title");
-const formAuthor = newBookDialog.querySelector("#author");
-const formPages = newBookDialog.querySelector("#pages");
-const formStatus = newBookDialog.querySelector("#status");
 
 newBookBtn.addEventListener("click", () => {
     newBookForm.reset();
     newBookDialog.showModal();
 })
+
+// Form Inputs
+const newBookForm = document.querySelector("#new-book form")
+const formTitle = newBookDialog.querySelector("#title");
+const formAuthor = newBookDialog.querySelector("#author");
+const formPages = newBookDialog.querySelector("#pages");
+const formStatus = newBookDialog.querySelector("#status");
 
 closeBtn.addEventListener("click", () => {
     newBookDialog.close();
@@ -29,6 +29,9 @@ submitBtn.addEventListener("click", () => {
     displayLibrary();
     newBookDialog.close();
 })
+
+//Remove Book Button
+const removeBookBtn = document.querySelector(".remove-book-button")
 
 const myLibrary = [];
 
@@ -57,6 +60,7 @@ function displayLibrary() {
     for (let i = 0; i < myLibrary.length; i++) {
         const newBook = document.createElement("tr");
         newBook.className = "book";
+        newBook.dataset.uniqueId = `${myLibrary[i].id}`;
 
         const newTitle = document.createElement("td");
         newTitle.className = "title";
@@ -83,8 +87,22 @@ function displayLibrary() {
         newHasRead.textContent = myLibrary[i].hasRead ? "Read" : "Unread";
         newBook.appendChild(newHasRead);
 
+        const removeBook = document.createElement("td");
+        const removeBookBtn = document.createElement("button");
+        removeBookBtn.textContent = "REMOVE";
+        removeBookBtn.className = "remove-book-btn";
+        removeBookBtn.dataset.uniqueId = `${myLibrary[i].id}`;
+        removeBook.appendChild(removeBookBtn);
+        newBook.appendChild(removeBook);
+        removeBookBtn.addEventListener("click", () => {
+            const index = myLibrary.findIndex(obj => obj.id === removeBookBtn.dataset.uniqueId);
+            myLibrary.splice(index, 1);
+            displayLibrary();
+        })
+
         tbody.appendChild(newBook);
     }
 
 }
+
 displayLibrary();
