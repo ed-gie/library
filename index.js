@@ -25,13 +25,10 @@ closeBtn.addEventListener("click", () => {
 })
 
 submitBtn.addEventListener("click", () => {
-    addBookToLibrary(formTitle.value, formAuthor.value, formPages.value, formStatus.value === "yes" ? true : false);
+    addBookToLibrary(formTitle.value, formAuthor.value, formPages.value, formStatus.value === "yes");
     displayLibrary();
     newBookDialog.close();
 })
-
-//Remove Book Button
-const removeBookBtn = document.querySelector(".remove-book-button")
 
 const myLibrary = [];
 
@@ -60,40 +57,50 @@ function displayLibrary() {
     for (let i = 0; i < myLibrary.length; i++) {
         const newBook = document.createElement("tr");
         newBook.className = "book";
-        newBook.dataset.uniqueId = `${myLibrary[i].id}`;
+        newBook.dataset.uniqueId = myLibrary[i].id;
 
         const newTitle = document.createElement("td");
         newTitle.className = "title";
-        newTitle.textContent = `${myLibrary[i].title}`;
+        newTitle.textContent = myLibrary[i].title;
         newBook.appendChild(newTitle);
 
         const newAuthor = document.createElement("td");
         newAuthor.className = "author";
-        newAuthor.textContent = `${myLibrary[i].author}`;
+        newAuthor.textContent = myLibrary[i].author;
         newBook.appendChild(newAuthor);
 
         const newPages = document.createElement("td");
         newPages.className = "pages";
-        newPages.textContent = `${myLibrary[i].pages}`;
+        newPages.textContent = myLibrary[i].pages;
         newBook.appendChild(newPages);
 
         const newId = document.createElement("td");
         newId.className = "id";
-        newId.textContent = `${myLibrary[i].id}`;
+        newId.textContent = myLibrary[i].id;
         newBook.appendChild(newId);
 
         const newHasRead = document.createElement("td");
-        newHasRead.className = "read";
-        newHasRead.textContent = myLibrary[i].hasRead ? "Read" : "Unread";
+        newHasRead.className = "read-status";
+        const hasReadBtn = document.createElement("button");
+        hasReadBtn.className = myLibrary[i].hasRead ? "read" : "unread";
+        hasReadBtn.textContent = myLibrary[i].hasRead ? "Read" : "Unread";
+        newHasRead.appendChild(hasReadBtn);
         newBook.appendChild(newHasRead);
+        //Status Toggle
+        hasReadBtn.addEventListener("click", () => {
+            const index = myLibrary.findIndex(obj => obj.id === newBook.dataset.uniqueId);
+            myLibrary[index].toggleRead();
+            displayLibrary();
+        })
 
         const removeBook = document.createElement("td");
         const removeBookBtn = document.createElement("button");
         removeBookBtn.textContent = "REMOVE";
         removeBookBtn.className = "remove-book-btn";
-        removeBookBtn.dataset.uniqueId = `${myLibrary[i].id}`;
+        removeBookBtn.dataset.uniqueId = myLibrary[i].id;
         removeBook.appendChild(removeBookBtn);
         newBook.appendChild(removeBook);
+        //Remove Book
         removeBookBtn.addEventListener("click", () => {
             const index = myLibrary.findIndex(obj => obj.id === removeBookBtn.dataset.uniqueId);
             myLibrary.splice(index, 1);
@@ -103,6 +110,10 @@ function displayLibrary() {
         tbody.appendChild(newBook);
     }
 
+}
+
+Book.prototype.toggleRead = function() {
+    this.hasRead = !this.hasRead;
 }
 
 displayLibrary();
